@@ -36,7 +36,7 @@ import { computed, defineComponent, ref } from "vue";
 import { useStore } from "../store";
 import { customers, State } from "../store/modules/customer";
 import { status } from "../store/types"
-import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import AlertMessage from "./AlertMessage.vue";
 export default defineComponent({
   components: { AlertMessage },
@@ -48,6 +48,8 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    const route = useRoute();
+    console.log(route.params.query);
     const customerState = computed<State>(() => store.state.customers);
     const customers = computed<customers[]>(() => customerState.value.item)
     const loadingstates = ref({
@@ -57,9 +59,9 @@ export default defineComponent({
   },
   methods: {
     created: function (){
-      if(this.$router.hasRoute.arguments.alert){
-        this.alert = this.$router.hasRoute.arguments.alert
-        console.log(this.alert);
+      if(this.$route.params.id){
+        this.alert = String(this.$route.params.id)
+        console.log(this.$route.params.id);
       }
     }
   }
